@@ -9,43 +9,50 @@ export default {
   methods: {
     addTask() {
       if (this.newTask === '') {
-        alert('This field cannot be empty');        
+        alert('This field cannot be empty');
       } else {
-        this.tasks.push({ title: this.newTask, checked:false });
+        this.tasks.push({ title: this.newTask, checked: false });
         this.newTask = '';
-        this.saveData();
+        this.saveData();  // Changed from this.saveData to this.saveData()
       }
     },
-    toggleChecked(task){
+    toggleChecked(task) {
       task.checked = !task.checked;
       console.log(task.checked);
-      this.saveData();
+      this.saveData();  // Changed from this.saveData to this.saveData()
     },
-    deleteTask(index){
-      this.tasks.splice(index,1)
-      console.log(index)
-      this.saveData();
+    deleteTask(index) {
+      this.tasks.splice(index, 1);
+      console.log(index);
+      this.saveData();  // Changed from this.saveData to this.saveData()
     },
-
-    saveData(){
-      localStorage.setItem('data',JSON.stringify(this.tasks));
-      
-    }
-    ,
-    loadData(){
-      const savedData = localStorage.getItem('data')
-      if (savedData){
+    addEventListener() {
+      const listContainer = this.$refs['list-container'];
+      listContainer.addEventListener("click", (mouseclick) => {
+        console.log(mouseclick);
+        if (mouseclick.target.tagName === 'LI') {
+          mouseclick.target.classList.toggle('checked');
+          this.saveData();  // Changed from this.saveData to this.saveData()
+        } else if (mouseclick.target.tagName === 'I') {
+          mouseclick.target.closest('li').remove();
+          this.saveData();  // Changed from this.saveData to this.saveData()
+        }
+      });
+    },
+    saveData() {
+      localStorage.setItem('data', JSON.stringify(this.tasks));
+    },
+    loadData() {
+      const savedData = localStorage.getItem('data');
+      if (savedData) {
         this.tasks = JSON.parse(savedData);
       }
     }
+  },
+  mounted() {
+    this.addEventListener();
+    this.loadData();
   }
-    ,
-    mounted(){     
-      this.loadData();
-    } 
-    ,
-
-  
 };
 </script>
 

@@ -9,43 +9,35 @@ export default {
   methods: {
     addTask() {
       if (this.newTask === '') {
-        alert('This field cannot be empty');        
+        alert('This field cannot be empty');
       } else {
-        this.tasks.push({ title: this.newTask, checked:false });
+        this.tasks.push({ title: this.newTask, checked: false });
         this.newTask = '';
         this.saveData();
       }
     },
-    toggleChecked(task){
+    toggleChecked(task) {
       task.checked = !task.checked;
-      console.log(task.checked);
       this.saveData();
     },
-    deleteTask(index){
-      this.tasks.splice(index,1)
-      console.log(index)
+    deleteTask(index) {
+      this.tasks.splice(index, 1);
       this.saveData();
     },
-
-    saveData(){
-      localStorage.setItem('data',JSON.stringify(this.tasks));
-      
-    }
-    ,
-    loadData(){
-      const savedData = localStorage.getItem('data')
-      if (savedData){
+    saveData() {
+      localStorage.setItem('data', JSON.stringify(this.tasks));
+    },
+    loadData() {
+      const savedData = localStorage.getItem('data');
+      if (savedData) {
         this.tasks = JSON.parse(savedData);
       }
     }
-  }
-    ,
-    mounted(){     
-      this.loadData();
-    } 
-    ,
-
-  
+  },
+  mounted() {
+    this.loadData();
+  },
+ 
 };
 </script>
 
